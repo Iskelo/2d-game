@@ -10,16 +10,16 @@ window.addEventListener('load', function () {
 			window.addEventListener('keydown', e => {
 				if (((e.key === "ArrowUp") || (e.key === "ArrowDown")) && this.game.keys.indexOf(e.key) === -1) {
 					this.game.keys.push(e.key)
-				} else if (e.key === ' ') {
+				} else if (e.key === " ") {
 					this.game.player.shootTop();
 				}
-				console.log(this.game.keys);
+				// console.log(this.game.keys);
 			});
 			window.addEventListener('keyup', e => {
 				if (this.game.keys.indexOf(e.key) > -1) {
 					this.game.keys.splice(this.game.keys.indexOf(e.key), 1);
 				}
-				console.log(this.game.keys);
+				// console.log(this.game.keys);
 			})
 		}
 	}
@@ -29,15 +29,13 @@ window.addEventListener('load', function () {
 			this.x = x;
 			this.y = y;
 			this.width = 10;
-			this.height = 3;
+			this.height = 5;
 			this.speed = 3;
 			this.markedForDeletion = false;
 		}
 		update() {
 			this.x += this.speed;
-			if (this.x > this.game.width * 0.8) {
-				this.markedForDeletion = true;
-			}
+			if (this.x > this.game.width * 0.8) this.markedForDeletion = true;
 		}
 		draw(context) {
 			context.fillStyle = 'yellow';
@@ -54,7 +52,7 @@ window.addEventListener('load', function () {
 			this.y = 150;
 			this.speedY = 0;
 			this.maxSpeed = 3;
-			this.projectiles = []
+			this.projectiles = [];
 		}
 		update() {
 			if (this.game.keys.includes('ArrowUp')) {
@@ -65,24 +63,26 @@ window.addEventListener('load', function () {
 				this.speedY = 0;
 			}
 			this.y += this.speedY;
-
+			// handle projectiles
 			this.projectiles.forEach(projectile => {
 				projectile.update();
 			});
-			this.projectiles = this.projectiles.filter(projectile => {
-				!projectile.markedForDeletion;
-			})
+			this.projectiles = this.projectiles.filter(projectile => !projectile.markedForDeletion)
 		}
 		draw(context) {
-			context.fillStyle = "green";
+			context.fillStyle = 'green';
 			context.fillRect(this.x, this.y, this.width, this.height);
 			this.projectiles.forEach(projectile => {
 				projectile.draw(context);
 			});
+			// console.log(context.fillStyle);
 		}
 		shootTop() {
-			this.projectiles.push(new Projectile(this.game, this.x, this.y))
-			console.log(this.projectiles);
+			if (this.game.ammo > 0) {
+				this.projectiles.push(new Projectile(this.game, this.x + 130, this.y + 80));
+				this.game.ammo--;
+
+			}
 		}
 	}
 	class Enemy { }
@@ -96,6 +96,7 @@ window.addEventListener('load', function () {
 			this.player = new Player(this);
 			this.input = new InputHandler(this);
 			this.keys = [];
+			this.ammo = 20;
 		}
 		update() {
 			this.player.update();
