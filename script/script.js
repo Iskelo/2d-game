@@ -109,9 +109,8 @@ window.addEventListener('load', function () {
 			}
 		}
 		draw(context) {
-			context.fillStyle = 'red';
-			context.fillRect(this.x, this.y, this.width, this.height);
-			context.fillStyle = 'black';
+			context.strokeRect(this.x, this.y, this.width, this.height);
+			context.drawImage(this.image, this.x, this.y)
 			context.font = '20px Helvetica';
 			context.fillText(this.lives, this.x, this.y);
 		}
@@ -119,9 +118,11 @@ window.addEventListener('load', function () {
 	class Angler1 extends Enemy {
 		constructor(game) {
 			super(game);
-			this.width = 170 * 0.5;
-			this.height = 100 * 0.5;
-			this.y = Math.random() * (this.game.height * 0.9 - this.height)
+			this.width = 150;
+			this.height = 95;
+			this.y = Math.random() * (this.game.height * 0.9 - this.height);
+			this.image = document.getElementById('enemy1');
+
 		}
 	}
 	class Layer {
