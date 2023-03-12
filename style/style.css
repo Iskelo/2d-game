@@ -26,3 +26,16 @@
 #enemy3 {
 	display: none;
 }
+
+.buttons {
+	/* display: flex; */
+	display: none;
+}
+
+#up,
+#down,
+#fire {
+	cursor: pointer;
+	border: 1px solid black;
+	padding: 10px 20px;
+}

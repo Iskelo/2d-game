@@ -21,24 +21,27 @@ window.addEventListener('load', function () {
 					this.game.keys.splice(this.game.keys.indexOf(e.key), 1);
 				}
 			});
-			window.addEventListener('touchstart', e => {
+			canvas.addEventListener('touchstart', e => {
 				const x = e.touches[0].clientX;
 				const y = e.touches[0].clientY;
 
-				const width = canvas.width;
-				const height = canvas.height;
 
-				const dx = x - width / 2;
-				const dy = y - height / 2;
+				const dx = x - canvas.width / 2;
+				const dy = y - canvas.height / 2;
 				if (dx > 0) {
+					console.log(y, x);
 					this.game.player.shootTop();
 				} else {
 					if (dy > 0) {
-						e.key = "ArrowUp";
-						this.game.keys.push(e.key);
-					} else {
 						e.key = "ArrowDown";
 						this.game.keys.push(e.key);
+						this.game.keys.splice(this.game.keys.indexOf(e.key), 1);
+						console.log(e.key, y, x);
+					} else {
+						e.key = "ArrowUp";
+						this.game.keys.push(e.key);
+						this.game.keys.splice(this.game.keys.indexOf(e.key), 1);
+						console.log(e.key, y, x);
 					}
 				}
 			})
