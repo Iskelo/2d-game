@@ -20,6 +20,9 @@
 #layer3,
 #layer4,
 #layer5,
-#player {
+#player,
+#enemy1,
+#enemy2,
+#enemy3 {
 	display: none;
 }

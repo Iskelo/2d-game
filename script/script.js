@@ -12,14 +12,14 @@ window.addEventListener('load', function () {
 					this.game.keys.push(e.key)
 				} else if (e.key === " ") {
 					this.game.player.shootTop();
+				} else if (e.key === 'd') {
+					this.game.debug = !this.game.debug;
 				}
-				// console.log(this.game.keys);
 			});
 			window.addEventListener('keyup', e => {
 				if (this.game.keys.indexOf(e.key) > -1) {
 					this.game.keys.splice(this.game.keys.indexOf(e.key), 1);
 				}
-				// console.log(this.game.keys);
 			})
 		}
 	}
@@ -80,19 +80,16 @@ window.addEventListener('load', function () {
 			}
 		}
 		draw(context) {
-			context.fillStyle = 'green';
-			context.fillRect(this.x, this.y, this.width, this.height);
+			if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height);
 			context.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
 			this.projectiles.forEach(projectile => {
 				projectile.draw(context);
 			});
-			// console.log(context.fillStyle);
 		}
 		shootTop() {
 			if (this.game.ammo > 0) {
 				this.projectiles.push(new Projectile(this.game, this.x + 110, this.y + 77));
 				this.game.ammo--;
-
 			}
 		}
 	}
@@ -119,7 +116,6 @@ window.addEventListener('load', function () {
 			context.fillText(this.lives, this.x, this.y);
 		}
 	}
-
 	class Angler1 extends Enemy {
 		constructor(game) {
 			super(game);
@@ -233,10 +229,11 @@ window.addEventListener('load', function () {
 			this.ammoInterval = 500;
 			this.gameOver = false;
 			this.score = 0;
-			this.winningScore = 10;
+			this.winningScore = 15;
 			this.gameTime = 0;
-			this.timeLimit = 5000;
+			this.timeLimit = 15000;
 			this.speed = 1;
+			this.debug = true;
 		}
 		update(deltaTime) {
 			if (!this.gameOver) this.gameTime += deltaTime;
